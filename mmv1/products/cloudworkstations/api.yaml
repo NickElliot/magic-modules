@@ -419,4 +419,104 @@ objects:
               description: |
                 A list of messages that carry the details.   
 
+  - !ruby/object:Api::Resource
+    name: 'Workstations'
+    base_url: projects/{{project}}/locations/{{location}}/workstationClusters/{{workstation_cluster_id}}/workstationConfigs/{{workstation_config_id}}/workstations
+    create_url: projects/{{project}}/locations/{{location}}/workstationClusters/{{workstation_cluster_id}/workstationConfigs/{{workstation_config_id}}/workstations?workstationId={{name}}
+    update_verb: :PATCH
+    description: |
+      A single instance of a developer workstation with its own persistent storage.
+    references: !ruby/object:Api::Resource::ReferenceLinks
+      api: 'https://cloud.google.com/workstations/docs/reference/rest/v1beta/projects.locations.workstationClusters.workstationConfigs.workstations'
+    parameters:
+      - !ruby/object:Api::Type::String
+        name: "workstationClusterId"
+        input: true
+        required: true
+        url_param_only: true
+        description: |
+          The name of the Workstation Cluster this Workstation's Config is associated with.
+      - !ruby/object:Api::Type::String
+        name: "workstationConfigId"
+        input: true
+        required: true
+        url_param_only: true
+        description: |
+          The name of the Workstation Config this Workstation is associated with.
+      - !ruby/object:Api::Type::String
+        name: 'location'
+        description: 'The [Cloud Workstation location](https://cloud.google.com/workstations/docs/locations) for the workstation.'
+        input: true
+        url_param_only: true
+    properties:
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: |
+          Full name of this resource.
+        input: true
+        required: true
+      - !ruby/object:Api::Type::String
+        name: 'displayName'
+        description: |
+          Human-readable name for this resource.
+        input: true
+        required: true
+      - !ruby/object:Api::Type::String
+        name: 'uid'
+        description: |
+          Output only. A system-assigned unique identified for this resource.
+        output: true
+      - !ruby/object:Api::Type::Boolean
+        name: 'reconciling'
+        description: |
+          Output only. Indicates whether this resource is currently being updated to match its intended state.
+        output: true
+      - !ruby/object:Api::Type::KeyValuePairs
+        name: 'annotations'
+        description: |
+          Client-specified annotations.
+      - !ruby/object:Api::Type::KeyValuePairs
+        name: 'labels'
+        description: |
+          Client-specified labels that are applied to the resource and that are also propagated to the underlying 
+          Compute Engine resources.
+      - !ruby/object:Api::Type::String
+        name: 'createTime'
+        description: |
+          Output only. Time when this resource was created.
+        output: true
+      - !ruby/object:Api::Type::String
+        name: 'updateTime'
+        description: |
+          Output only. Time when this resource was most recently updated.
+        output: true
+      - !ruby/object:Api::Type::String
+        name: 'deleteTime'
+        description: |
+          Output only. Time when this resource was soft-deleted.
+        output: true
+      - !ruby/object:Api::Type::String
+        name: 'etag'
+        description: |
+          Checksum computed by the server. 
+          May be sent on update and delete requests to ensure that the client has an up-to-date value before proceeding.
+      - !ruby/object:Api::Type::Enum
+        name: 'state'
+        description: |
+          Output only. Current state of the workstation.
+        output: true
+        values:
+          - :STATE_UNSPECIFIED
+          - :STATE_STARTING
+          - :STATE_RUNNING  
+          - :STATE_STOPPING 
+          - :STATE_STOPPED 
+      - !ruby/object:Api::Type::String
+        name: 'host'
+        description: |
+          Output only. Host to which clients can send HTTPS traffic that will be received by the workstation. 
+          Authorized traffic will be received to the workstation as HTTP on port 80. To send traffic to a different port, 
+          clients may prefix the host with the destination port in the format "{port}-{host}".
+      
+  
   
