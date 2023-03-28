@@ -144,6 +144,7 @@ resource "google_compute_forwarding_rule" "foobar" {
   labels = {
     "foo" = "bar"
   }
+  allow_psc_global_access = true
 <% end -%>
 }
 `, poolName, ruleName)
@@ -173,6 +174,7 @@ resource "google_compute_forwarding_rule" "foobar" {
   labels = {
     "baz" = "qux"
   }
+  allow_psc_global_access = false
 <% end -%>
 }
 `, poolName, poolName, ruleName)
