@@ -15,15 +15,9 @@ func TestAccComputeForwardingRule_update(t *testing.T) {
 	ruleName := fmt.Sprintf("tf-%s", RandString(t, 10))
 
 	VcrTest(t, resource.TestCase{
-<<<<<<< HEAD
 		PreCheck:                 func() { AccTestPreCheck(t) },
 		ProtoV5ProviderFactories: ProtoV5ProviderFactories(t),
 		CheckDestroy:             testAccCheckComputeForwardingRuleDestroyProducer(t),
-=======
-		PreCheck:     func() { testAccPreCheck(t) },
-		Providers:    TestAccProviders,
-		CheckDestroy: testAccCheckComputeForwardingRuleDestroyProducer(t),
->>>>>>> 177ff7852 (moving new field to correct test.)
 		Steps: []resource.TestStep{
 			resource.TestStep{
 				Config: testAccComputeForwardingRule_basic(poolName, ruleName),
@@ -87,15 +81,9 @@ func TestAccComputeForwardingRule_networkTier(t *testing.T) {
 	ruleName := fmt.Sprintf("tf-%s", RandString(t, 10))
 
 	VcrTest(t, resource.TestCase{
-<<<<<<< HEAD
 		PreCheck:                 func() { AccTestPreCheck(t) },
 		ProtoV5ProviderFactories: ProtoV5ProviderFactories(t),
 		CheckDestroy:             testAccCheckComputeForwardingRuleDestroyProducer(t),
-=======
-		PreCheck:     func() { testAccPreCheck(t) },
-		Providers:    TestAccProviders,
-		CheckDestroy: testAccCheckComputeForwardingRuleDestroyProducer(t),
->>>>>>> 177ff7852 (moving new field to correct test.)
 		Steps: []resource.TestStep{
 			resource.TestStep{
 				Config: testAccComputeForwardingRule_networkTier(poolName, ruleName),
@@ -120,15 +108,9 @@ func TestAccComputeForwardingRule_serviceDirectoryRegistrations(t *testing.T) {
 	serviceName := fmt.Sprintf("tf-test-%s", RandString(t, 10))
 
 	VcrTest(t, resource.TestCase{
-<<<<<<< HEAD
 		PreCheck:                 func() { AccTestPreCheck(t) },
 		ProtoV5ProviderFactories: ProtoV5ProviderFactories(t),
 		CheckDestroy:             testAccCheckComputeForwardingRuleDestroyProducer(t),
-=======
-		PreCheck:     func() { testAccPreCheck(t) },
-		Providers:    TestAccProviders,
-		CheckDestroy: testAccCheckComputeForwardingRuleDestroyProducer(t),
->>>>>>> 177ff7852 (moving new field to correct test.)
 		Steps: []resource.TestStep{
 			resource.TestStep{
 				Config: testAccComputeForwardingRule_serviceDirectoryRegistrations(poolName, ruleName, svcDirNamespace, serviceName),
