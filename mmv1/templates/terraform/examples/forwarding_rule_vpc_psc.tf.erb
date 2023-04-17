@@ -85,8 +85,6 @@ resource "google_compute_forwarding_rule" "producer_target_service" {
   all_ports             = true
   network               = google_compute_network.producer_net.name
   subnetwork            = google_compute_subnetwork.producer_subnet.name
-
-  allow_psc_global_access = true
 }
 
 resource "google_compute_region_backend_service" "producer_service_backend" {
