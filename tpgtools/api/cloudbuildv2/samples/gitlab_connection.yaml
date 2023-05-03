@@ -22,3 +22,7 @@ variables:
   type: resource_name
 - name: project
   type: project
+- type: CUSTOMIZE_DIFF
+  details:
+    functions: 
+    - defaultProviderCustomizeDiff

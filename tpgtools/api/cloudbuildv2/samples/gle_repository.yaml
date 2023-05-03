@@ -26,3 +26,7 @@ variables:
   type: project
 - name: repository
   type: resource_name
+- type: CUSTOMIZE_DIFF
+  details:
+    functions: 
+    - defaultProviderCustomizeDiff
