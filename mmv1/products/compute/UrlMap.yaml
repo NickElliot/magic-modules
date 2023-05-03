@@ -114,6 +114,7 @@ examples:
     ignore_read_extra:
       - "metadata"
       - "metadata_startup_script"
+
   - !ruby/object:Provider::Terraform::Examples
     name: "url_map_path_template_match"
     primary_resource_id: "urlmap"
