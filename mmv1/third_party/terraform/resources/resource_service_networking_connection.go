@@ -4,6 +4,7 @@ import (
 	"github.com/hashicorp/terraform-provider-google/google/services/servicenetworking"
 	transport_tpg "github.com/hashicorp/terraform-provider-google/google/transport"
 
+
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
