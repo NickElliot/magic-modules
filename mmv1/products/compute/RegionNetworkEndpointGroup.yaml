@@ -93,6 +93,7 @@ parameters:
       A reference to the region where the Serverless NEGs Reside.
     required: true
     custom_expand: 'templates/terraform/custom_expand/resourceref_with_validation.go.erb'
+    ignore_read: true
 properties:
   - !ruby/object:Api::Type::String
     name: 'name'

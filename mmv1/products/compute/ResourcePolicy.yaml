@@ -87,7 +87,8 @@ parameters:
     required: false
     default_from_api: true
     custom_expand: 'templates/terraform/custom_expand/resourceref_with_validation.go.erb'
-properties:
+    ignore_read: true
+roperties:
   - !ruby/object:Api::Type::String
     name: 'name'
     required: true
