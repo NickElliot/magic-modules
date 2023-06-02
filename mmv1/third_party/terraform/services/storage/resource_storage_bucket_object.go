@@ -36,7 +36,7 @@ func ResourceStorageBucketObject() *schema.Resource {
 		},
 
 		CustomizeDiff: customdiff.All(
-			tpgresource.DefaultProviderCustomizeDiff,
+			tpgresource.DefaultProviderProject,
 		),
 
 		Schema: map[string]*schema.Schema{

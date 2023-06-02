@@ -37,7 +37,7 @@ func ResourceComputeSecurityPolicy() *schema.Resource {
 			State: resourceSecurityPolicyStateImporter,
 		},
 		CustomizeDiff: customdiff.All(
-			tpgresource.DefaultProviderCustomizeDiff,
+			tpgresource.DefaultProviderProject,
 			rulesCustomizeDiff,
 		),
 		Timeouts: &schema.ResourceTimeout{

@@ -119,12 +119,11 @@ func ResourceSqlDatabaseInstance() *schema.Resource {
 
 		CustomizeDiff: customdiff.All(
 			customdiff.ForceNewIfChange("settings.0.disk_size", compute.IsDiskShrinkage),
-			defaultProviderCustomizeDiff,
-			tpgresource.DefaultProviderCustomizeDiff,resources/resource_sql_database_instance.go.erb
 			customdiff.ForceNewIfChange("master_instance_name", isMasterInstanceNameSet),
 			customdiff.IfValueChange("instance_type", isReplicaPromoteRequested, checkPromoteConfigurationsAndUpdateDiff),
 			privateNetworkCustomizeDiff,
 			pitrSupportDbCustomizeDiff,
+			tpgresource.DefaultProviderProject,
 		),
 
 		Schema: map[string]*schema.Schema{
