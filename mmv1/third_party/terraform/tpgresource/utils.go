@@ -3,6 +3,7 @@ package tpgresource
 import (
 	"crypto/md5"
 	"encoding/base64"
+	"context"
 	"errors"
 	"fmt"
 	"io/ioutil"
@@ -14,7 +15,6 @@ import (
 	"strconv"
 	"strings"
 	"time"
-	"context"
 
 	transport_tpg "github.com/hashicorp/terraform-provider-google/google/transport"
 
@@ -771,14 +771,6 @@ func DefaultProviderProject(_ context.Context, diff *schema.ResourceDiff, meta i
 		return fmt.Errorf("Failed to retrieve project, pid: %s, err: %s", project, err)
 	}
 	diff.SetNew("project", project)
-	//region
-	if region := diff.Get("region"); region != nil {
-		region, err := GetRegionFromDiff(diff, config)
-		if err != nil {
-			return fmt.Errorf("Failed to retrieve region, pid: %s, err: %s", region, err)
-		}
-		diff.SetNew("region", region)
-	}
 
 	return nil
 }
@@ -812,4 +804,3 @@ func DefaultProviderZone(_ context.Context, diff *schema.ResourceDiff, meta inte
 
 	return nil
 }
-
