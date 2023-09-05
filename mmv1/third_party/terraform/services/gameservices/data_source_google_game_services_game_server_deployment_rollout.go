@@ -29,5 +29,13 @@ func dataSourceGameServicesGameServerDeploymentRolloutRead(d *schema.ResourceDat
 
 	d.SetId(id)
 
-	return resourceGameServicesGameServerDeploymentRolloutRead(d, meta)
+	err = resourceGameServicesGameServerDeploymentRolloutRead(d, meta)
+	if err != nil {
+		return err
+	}
+
+	if d.Id() == "" {
+		return fmt.Errorf("%s not found", id)
+	}
+	return nil
 }
