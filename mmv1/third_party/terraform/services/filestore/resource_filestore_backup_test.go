@@ -63,9 +63,6 @@ func TestAccFilestoreBackup_tags(t *testing.T) {
 				ImportStateVerify:       true,
 				ImportStateVerifyIgnore: []string{"tags"},
 			},
-			{
-				Config: testAccFilestoreBackupTags_allowDestroy(instName, bkupName, map[string]string{org + "/" + tagKey: tagValue}),
-			},
 		},
 	})
 }
@@ -145,7 +142,7 @@ resource "google_filestore_backup" "backup" {
 
 func testAccFilestoreBackupTags(context map[string]interface{}, tags map[string]string) string {
 
-	r := fmt.Sprintf((`
+	r := fmt.Sprintf(`
 	resource "google_filestore_instance" "instance" {
           name     = "tf-fs-inst"
           location = "us-central1-b"
@@ -180,49 +177,7 @@ func testAccFilestoreBackupTags(context map[string]interface{}, tags map[string]
 	for key, value := range tags {
 		l += fmt.Sprintf("%q = %q\n", key, value)
 	}
-
-	l += fmt.Sprintf("}\n}")
-	return r + l
-}
-
-func testAccFilestoreBackupTags_allowDestroy(context map[string]interface{}, tags map[string]string) string {
-
-	r := fmt.Sprintf((`
-	resource "google_filestore_instance" "instance" {
-          name     = "tf-fs-inst"
-          location = "us-central1-b"
-          tier     = "BASIC_HDD"
-
-            file_shares {
-              capacity_gb = 1024
-              name        = "share1"
-            }
-
-            networks {
-              network      = "default"
-              modes        = ["MODE_IPV4"]
-              connect_mode = "DIRECT_PEERING"
-            }
         }
-
-        resource "google_filestore_backup" "backup" {
-          name              = "tf-fs-bkup"
-          location          = "us-central1"
-          description       = "This is a filestore backup for the test instance"
-          source_instance   = google_filestore_instance.instance.id
-          source_file_share = "share1"
-
-          labels = {
-            "files":"label1",
-            "other-label": "label2"
-          }
-	  tags = {`, context)
-
-	l := ""
-	for key, value := range tags {
-		l += fmt.Sprintf("%q = %q\n", key, value)
-	}
-
-	l += fmt.Sprintf("}\n}")
+        }
 	return r + l
 }
