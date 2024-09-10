@@ -108,8 +108,6 @@ func TestAccDataprocMetastoreService_PrivateServiceConnect(t *testing.T) {
 }
 
 func TestAccMetastoreService_tags(t *testing.T) {
-	t.Skip()
-
 	t.Parallel()
 	context := map[string]interface{}{
 		"random_suffix": acctest.RandString(t, 10),
@@ -129,7 +127,7 @@ func TestAccMetastoreService_tags(t *testing.T) {
 				ResourceName:            "google_dataproc_metastore_service.default",
 				ImportState:             true,
 				ImportStateVerify:       true,
-				ImportStateVerifyIgnore: []string{"tags"},
+				ImportStateVerifyIgnore: []string{"service_id", "location", "labels", "terraform_labels", "tags"},
 			},
 		},
 	})
