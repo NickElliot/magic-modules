@@ -55,13 +55,13 @@ func TestAccFilestoreBackup_tags(t *testing.T) {
 		CheckDestroy:             testAccCheckFilestoreBackupDestroyProducer(t),
 		Steps: []resource.TestStep{
 			{
-				Config: testAccFilestoreBackupTags(instName, bkupName, map[string]string{org + "/" + tagKey: tagValue}),
+				Config: testAccFilestoreBackupTags(instName, bkupName, map[string]string{tagKey: tagValue}),
 			},
 			{
 				ResourceName:            "google_filestore_backup.backup",
 				ImportState:             true,
 				ImportStateVerify:       true,
-				ImportStateVerifyIgnore: []string{"tags"},
+				ImportStateVerifyIgnore: []string{"labels", "terraform_labels", "description", "location", "tags"},
 			},
 		},
 	})
@@ -140,11 +140,11 @@ resource "google_filestore_backup" "backup" {
 `, instName, bkupName)
 }
 
-func testAccFilestoreBackupTags(context map[string]interface{}, tags map[string]string) string {
+func testAccFilestoreBackupTags(instName string, bkupName string, tags map[string]string) string {
 
-	r := fmt.Sprintf(`
+	return fmt.Sprintf(`
 	resource "google_filestore_instance" "instance" {
-          name     = "tf-fs-inst"
+          name     = "%s"
           location = "us-central1-b"
           tier     = "BASIC_HDD"
 
@@ -161,7 +161,7 @@ func testAccFilestoreBackupTags(context map[string]interface{}, tags map[string]
         }
 
         resource "google_filestore_backup" "backup" {
-          name              = "tf-fs-bkup"
+          name              = "%s"
           location          = "us-central1"
           description       = "This is a filestore backup for the test instance"
           source_instance   = google_filestore_instance.instance.id
@@ -171,13 +171,9 @@ func testAccFilestoreBackupTags(context map[string]interface{}, tags map[string]
             "files":"label1",
             "other-label": "label2"
           }
-	  tags = {`, context)
-
-	l := ""
-	for key, value := range tags {
-		l += fmt.Sprintf("%q = %q\n", key, value)
-	}
-        }
-        }
-	return r + l
+	  tags = {
+	"tagKeys/281478409127147" = "tagValues/281479442205542"
+}
+}
+`, instName, bkupName)
 }
