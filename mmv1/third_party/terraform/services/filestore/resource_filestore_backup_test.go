@@ -6,6 +6,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 	"github.com/hashicorp/terraform-provider-google/google/acctest"
+	"github.com/hashicorp/terraform-provider-google/google/envvar"
 )
 
 func TestAccFilestoreBackup_update(t *testing.T) {
@@ -36,32 +37,6 @@ func TestAccFilestoreBackup_update(t *testing.T) {
 				ImportState:             true,
 				ImportStateVerify:       true,
 				ImportStateVerifyIgnore: []string{"labels", "terraform_labels", "description", "location"},
-			},
-		},
-	})
-}
-
-func TestAccFilestoreBackup_tags(t *testing.T) {
-	t.Parallel()
-
-	instName := fmt.Sprintf("tf-fs-inst-%d", acctest.RandInt(t))
-	bkupName := fmt.Sprintf("tf-fs-bkup-%d", acctest.RandInt(t))
-	tagKey := acctest.BootstrapSharedTestTagKey(t, "filestore-backups-tagkey")
-	tagValue := acctest.BootstrapSharedTestTagValue(t, "filestore-backups-tagvalue", tagKey)
-
-	acctest.VcrTest(t, resource.TestCase{
-		PreCheck:                 func() { acctest.AccTestPreCheck(t) },
-		ProtoV5ProviderFactories: acctest.ProtoV5ProviderFactories(t),
-		CheckDestroy:             testAccCheckFilestoreBackupDestroyProducer(t),
-		Steps: []resource.TestStep{
-			{
-				Config: testAccFilestoreBackupTags(instName, bkupName, map[string]string{tagKey: tagValue}),
-			},
-			{
-				ResourceName:            "google_filestore_backup.backup",
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateVerifyIgnore: []string{"labels", "terraform_labels", "description", "location", "tags"},
 			},
 		},
 	})
@@ -140,9 +115,36 @@ resource "google_filestore_backup" "backup" {
 `, instName, bkupName)
 }
 
+func TestAccFilestoreBackup_tags(t *testing.T) {
+	t.Parallel()
+
+        org := envvar.GetTestOrgFromEnv(t)
+	instName := fmt.Sprintf("tf-fs-inst-%d", acctest.RandInt(t))
+	bkupName := fmt.Sprintf("tf-fs-bkup-%d", acctest.RandInt(t))
+	tagKey := acctest.BootstrapSharedTestTagKey(t, "filestore-backups-tagkey")
+	tagValue := acctest.BootstrapSharedTestTagValue(t, "filestore-backups-tagvalue", tagKey)
+
+	acctest.VcrTest(t, resource.TestCase{
+		PreCheck:                 func() { acctest.AccTestPreCheck(t) },
+		ProtoV5ProviderFactories: acctest.ProtoV5ProviderFactories(t),
+		CheckDestroy:             testAccCheckFilestoreBackupDestroyProducer(t),
+		Steps: []resource.TestStep{
+			{
+				Config: testAccFilestoreBackupTags(instName, bkupName, map[string]string{org + "/" + tagKey: tagValue}),
+			},
+			{
+				ResourceName:            "google_filestore_backup.backup",
+				ImportState:             true,
+				ImportStateVerify:       true,
+				ImportStateVerifyIgnore: []string{"labels", "terraform_labels", "description", "location", "tags"},
+			},
+		},
+	})
+}
+
 func testAccFilestoreBackupTags(instName string, bkupName string, tags map[string]string) string {
 
-	return fmt.Sprintf(`
+	r := fmt.Sprintf(`
 	resource "google_filestore_instance" "instance" {
           name     = "%s"
           location = "us-central1-b"
@@ -171,9 +173,13 @@ func testAccFilestoreBackupTags(instName string, bkupName string, tags map[strin
             "files":"label1",
             "other-label": "label2"
           }
-	  tags = {
-	"tagKeys/281478409127147" = "tagValues/281479442205542"
-}
-}
-`, instName, bkupName)
+	  tags = {`, instName, bkupName)
+
+	l := ""
+	for key, value := range tags {
+		l += fmt.Sprintf("%q = %q\n", key, value)
+	}
+
+	l += fmt.Sprintf("}\n}")
+	return r + l
 }
