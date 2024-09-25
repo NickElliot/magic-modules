@@ -119,8 +119,8 @@ func TestAccFilestoreBackup_tags(t *testing.T) {
 	t.Parallel()
 
         org := envvar.GetTestOrgFromEnv(t)
-	instName := fmt.Sprintf("tf-fs-inst-%d", acctest.RandInt(t))
-	bkupName := fmt.Sprintf("tf-fs-bkup-%d", acctest.RandInt(t))
+	instanceName := fmt.Sprintf("tf-fs-inst-%d", acctest.RandInt(t))
+	backupName := fmt.Sprintf("tf-fs-bkup-%d", acctest.RandInt(t))
 	tagKey := acctest.BootstrapSharedTestTagKey(t, "filestore-backups-tagkey")
 	tagValue := acctest.BootstrapSharedTestTagValue(t, "filestore-backups-tagvalue", tagKey)
 
@@ -130,7 +130,7 @@ func TestAccFilestoreBackup_tags(t *testing.T) {
 		CheckDestroy:             testAccCheckFilestoreBackupDestroyProducer(t),
 		Steps: []resource.TestStep{
 			{
-				Config: testAccFilestoreBackupTags(instName, bkupName, map[string]string{org + "/" + tagKey: tagValue}),
+				Config: testAccFilestoreBackupTags(instanceName, backupName, map[string]string{org + "/" + tagKey: tagValue}),
 			},
 			{
 				ResourceName:            "google_filestore_backup.backup",
@@ -142,7 +142,7 @@ func TestAccFilestoreBackup_tags(t *testing.T) {
 	})
 }
 
-func testAccFilestoreBackupTags(instName string, bkupName string, tags map[string]string) string {
+func testAccFilestoreBackupTags(instanceName string, backupName string, tags map[string]string) string {
 
 	r := fmt.Sprintf(`
 	resource "google_filestore_instance" "instance" {
@@ -173,7 +173,7 @@ func testAccFilestoreBackupTags(instName string, bkupName string, tags map[strin
             "files":"label1",
             "other-label": "label2"
           }
-	  tags = {`, instName, bkupName)
+	  tags = {`, instanceName, backupName)
 
 	l := ""
 	for key, value := range tags {
