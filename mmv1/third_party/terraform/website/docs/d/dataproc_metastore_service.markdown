@@ -18,7 +18,7 @@ data "google_dataproc_metastore_service" "foo" {
 }
 ```
 
-To create an service with a tag
+To create a service with a tag
 
 ```tf
 resource "google_dataproc_metastore_service" "my-service"{
@@ -39,7 +39,7 @@ The following arguments are supported:
 
 * `project` - (Optional) The project in which the resource belongs. If it
     is not provided, the provider project is used.
-* `tags` - (Optional) A map of resource manager tags. Resource manager tag keys and values have the same definition as resource manager tags. Keys must be in the format tagKeys/{tag_key_id}, and values are in the format tagValues/456. The field is ignored when empty. The field is immutable and causes resource replacement when mutated.
+* `tags` - (Optional) A map of resource manager tags. Resource manager tag keys and values have the same definition as resource manager tags. Keys must be in the format tagKeys/{tag_key_id}, and values are in the format tagValues/{tag_value_id}. The field is ignored when empty. The field is immutable and causes resource replacement when mutated.
 
 ## Attributes Reference
 
