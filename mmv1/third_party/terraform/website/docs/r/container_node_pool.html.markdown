@@ -221,6 +221,8 @@ cluster.
 
 * `network_performance_config` - (Optional) Network bandwidth tier configuration. Structure is [documented below](#network_performance_config).
 
+* `subnetwork` - (Optional) The subnetwork path for the node pool. Format: `projects/{project}/regions/{region}/subnetworks/{subnetwork}`. If the cluster is associated with multiple subnetworks, the subnetwork for the node pool is picked based on the IP utilization during node pool creation and is immutable
+
 <a name="nested_additional_node_network_configs"></a>The `additional_node_network_configs` block supports:
 
 * `network` - Name of the VPC where the additional interface belongs.
@@ -263,15 +265,15 @@ cluster.
 
 <a name="nested_blue_green_settings"></a>The `blue_green_settings` block supports:
 
-* `standard_rollout_policy` - (Required) Specifies the standard policy settings for blue-green upgrades.
+-> Note: Exactly one of `standard_rollout_policy` or `autoscaled_rollout_policy` must be set.
+
+* `standard_rollout_policy` - (Optional) Specifies the standard policy settings for blue-green upgrades.
     * `batch_percentage` - (Optional) Percentage of the blue pool nodes to drain in a batch.
     * `batch_node_count` - (Optional) Number of blue nodes to drain in a batch.
     * `batch_soak_duration` - (Optionial) Soak time after each batch gets drained.
 
-* `local_ssd_encryption_mode` - (Optional) Possible Local SSD encryption modes:
-    Accepted values are:
-    * `STANDARD_ENCRYPTION`: The given node will be encrypted using keys managed by Google infrastructure and the keys wll be deleted when the node is deleted.
-    * `EPHEMERAL_KEY_ENCRYPTION`: The given node will opt-in for using ephemeral key for encrypting Local SSDs. The Local SSDs will not be able to recover data in case of node crash.
+* `autoscaled_rollout_policy` - (Optional, [Beta](https://terraform.io/docs/providers/google/guides/provider_versions.html)) Autoscaled rollout policy for blue-green upgrade.
+    * `wait_for_drain_duration` - (Optional) Time in seconds to wait after cordoning the blue pool before draining the nodes.
 
 * `node_pool_soak_duration` - (Optional) Time needed after draining the entire blue pool.
     After this period, the blue pool will be cleaned up.

@@ -37,7 +37,7 @@ func getProviderDefaultFromFrameworkSchema(schemaField string, rVal, pVal types.
 		return pVal
 	}
 
-	diags.AddError("required field is not set", fmt.Sprintf("%s is not set", schemaField))
+	diags.AddError("required field is not set", fmt.Sprintf("%s must be set in at least one of Terraform resource configuration, Terraform provider configuration, or environment variables.", schemaField))
 	return types.String{}
 }
 
@@ -118,4 +118,11 @@ func ReplaceVarsForFrameworkTest(prov *transport_tpg.Config, rs *terraform.Resou
 	}
 
 	return re.ReplaceAllStringFunc(linkTmpl, replaceFunc), nil
+}
+
+func FlattenStringEmptyToNull(configuredValue types.String, apiValue string) types.String {
+	if configuredValue.IsNull() && apiValue == "" {
+		return types.StringNull()
+	}
+	return types.StringValue(apiValue)
 }
