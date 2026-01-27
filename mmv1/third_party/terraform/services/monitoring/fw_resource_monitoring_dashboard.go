@@ -94,15 +94,15 @@ func (r *MonitoringDashboardResource) Schema(_ context.Context, _ resource.Schem
 				},
 			},
 			"dashboard_json_export": schema.StringAttribute{
-				Description: "The JSON representation of a dashboard, following the format at https://cloud.google.com/monitoring/api/ref_v3/rest/v1/projects.dashboards. This attribute contains computed dashboard fields not contained in the user-supplied `dashboard_json` field",
-				Computed:    true,
+				Description:   "The JSON representation of a dashboard, following the format at https://cloud.google.com/monitoring/api/ref_v3/rest/v1/projects.dashboards. This attribute contains computed dashboard fields not contained in the user-supplied `dashboard_json` field",
+				Computed:      true,
 				PlanModifiers: []planmodifier.String{
 					//==Inconsistency Study Explanations==
 					//this is used to emulate having a resource level plan modifier that applies `resp.PlanValue = req.StateValue`
 					//for all computed attributes of a resource if the only detected diff is from the server augmented object.
 					//
 					//This line can be commented out to emulate the "Plan Modifier" scenarios without "UseStateForUnknown"
-					stringplanmodifier.UseStateForUnknown(),
+					//stringplanmodifier.UseStateForUnknown(),
 				},
 			},
 			// This is included for backwards compatibility with the original, SDK-implemented resource.
