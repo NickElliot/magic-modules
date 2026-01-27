@@ -87,12 +87,23 @@ func (r *MonitoringDashboardResource) Schema(_ context.Context, _ resource.Schem
 				Description: "The JSON representation of a dashboard, following the format at https://cloud.google.com/monitoring/api/ref_v3/rest/v1/projects.dashboards.",
 				Required:    true,
 				PlanModifiers: []planmodifier.String{
+					//==Inconsistency Study Explanations==
+					//The custom diff suppress that uses info in the user config to suppress a diffs when the state value is identical to config.
+					//This scenario is generally uncommon, but necessary for resources that are unable to rely on custom_flatten normalization.
 					FWMonitoringDashboardDiffSuppress(),
 				},
 			},
 			"dashboard_json_export": schema.StringAttribute{
 				Description: "The JSON representation of a dashboard, following the format at https://cloud.google.com/monitoring/api/ref_v3/rest/v1/projects.dashboards. This attribute contains computed dashboard fields not contained in the user-supplied `dashboard_json` field",
 				Computed:    true,
+				PlanModifiers: []planmodifier.String{
+					//==Inconsistency Study Explanations==
+					//this is used to emulate having a resource level plan modifier that applies `resp.PlanValue = req.StateValue`
+					//for all computed attributes of a resource if the only detected diff is from the server augmented object.
+					//
+					//This line can be commented out to emulate the "Plan Modifier" scenarios without "UseStateForUnknown"
+					stringplanmodifier.UseStateForUnknown(),
+				},
 			},
 			// This is included for backwards compatibility with the original, SDK-implemented resource.
 			"id": schema.StringAttribute{
@@ -404,6 +415,8 @@ func (r *MonitoringDashboardResource) Refresh(ctx context.Context, data *Monitor
 		return
 	}
 	if data.DashboardJson.IsNull() || data.DashboardJson.IsUnknown() {
+		//==Inconsistency Study Explanations==
+		//By removing the following line, we can disable overwriting the input value from config
 		data.DashboardJson = NewNormalizedValue(str)
 	}
 	exportStr, _ := structure.NormalizeJsonString(str)
