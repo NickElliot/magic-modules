@@ -162,7 +162,7 @@ func (v Normalized) StringSemanticEquals(ctx context.Context, stateValuable base
 	}
 	//==Inconsistency Study Explanations==
 	//if disabling the semantic equality property, the below line needs to be commented out to suppress a build error for unused variables
-	stateMap, err := structure.ExpandJsonFromString(stateValue.ValueString())
+	//stateMap, err := structure.ExpandJsonFromString(stateValue.ValueString())
 	if err != nil {
 		diags.AddError(
 			"Semantic Equality Check Error",
@@ -173,7 +173,7 @@ func (v Normalized) StringSemanticEquals(ctx context.Context, stateValuable base
 	}
 	//==Inconsistency Study Explanations==
 	//By removing the following line, the actual transformative logic for this semantic equality can be removed, making it identical to a standard json normalization.
-	planMap = recursiveRemoveComputedKeys(planMap, stateMap)
+	//planMap = recursiveRemoveComputedKeys(planMap, stateMap)
 	planMinusComputedJson, err := structure.FlattenJsonToString(planMap)
 	if err != nil {
 		diags.AddError(
