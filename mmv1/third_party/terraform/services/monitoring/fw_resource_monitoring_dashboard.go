@@ -90,7 +90,7 @@ func (r *MonitoringDashboardResource) Schema(_ context.Context, _ resource.Schem
 					//==Inconsistency Study Explanations==
 					//The custom diff suppress that uses info in the user config to suppress a diffs when the state value is identical to config.
 					//This scenario is generally uncommon, but necessary for resources that are unable to rely on custom_flatten normalization.
-					FWMonitoringDashboardDiffSuppress(),
+					//FWMonitoringDashboardDiffSuppress(),
 				},
 			},
 			"dashboard_json_export": schema.StringAttribute{
@@ -102,7 +102,7 @@ func (r *MonitoringDashboardResource) Schema(_ context.Context, _ resource.Schem
 					//for all computed attributes of a resource if the only detected diff is from the server augmented object.
 					//
 					//This line can be commented out to emulate the "Plan Modifier" scenarios without "UseStateForUnknown"
-					stringplanmodifier.UseStateForUnknown(),
+					//stringplanmodifier.UseStateForUnknown(),
 				},
 			},
 			// This is included for backwards compatibility with the original, SDK-implemented resource.
