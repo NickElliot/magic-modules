@@ -83,14 +83,14 @@ func (r *MonitoringDashboardResource) Schema(_ context.Context, _ resource.Schem
 				},
 			},
 			"dashboard_json": schema.StringAttribute{
-				CustomType:  NormalizedType{},
-				Description: "The JSON representation of a dashboard, following the format at https://cloud.google.com/monitoring/api/ref_v3/rest/v1/projects.dashboards.",
-				Required:    true,
+				CustomType:    NormalizedType{},
+				Description:   "The JSON representation of a dashboard, following the format at https://cloud.google.com/monitoring/api/ref_v3/rest/v1/projects.dashboards.",
+				Required:      true,
 				PlanModifiers: []planmodifier.String{
 					//==Inconsistency Study Explanations==
 					//The custom diff suppress that uses info in the user config to suppress a diffs when the state value is identical to config.
 					//This scenario is generally uncommon, but necessary for resources that are unable to rely on custom_flatten normalization.
-					FWMonitoringDashboardDiffSuppress(),
+					//FWMonitoringDashboardDiffSuppress(),
 				},
 			},
 			"dashboard_json_export": schema.StringAttribute{
