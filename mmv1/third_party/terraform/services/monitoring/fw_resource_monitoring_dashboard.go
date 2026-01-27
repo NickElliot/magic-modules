@@ -83,9 +83,9 @@ func (r *MonitoringDashboardResource) Schema(_ context.Context, _ resource.Schem
 				},
 			},
 			"dashboard_json": schema.StringAttribute{
-				CustomType:  NormalizedType{},
-				Description: "The JSON representation of a dashboard, following the format at https://cloud.google.com/monitoring/api/ref_v3/rest/v1/projects.dashboards.",
-				Required:    true,
+				CustomType:    NormalizedType{},
+				Description:   "The JSON representation of a dashboard, following the format at https://cloud.google.com/monitoring/api/ref_v3/rest/v1/projects.dashboards.",
+				Required:      true,
 				PlanModifiers: []planmodifier.String{
 					//==Inconsistency Study Explanations==
 					//The custom diff suppress that uses info in the user config to suppress a diffs when the state value is identical to config.
@@ -94,8 +94,8 @@ func (r *MonitoringDashboardResource) Schema(_ context.Context, _ resource.Schem
 				},
 			},
 			"dashboard_json_export": schema.StringAttribute{
-				Description: "The JSON representation of a dashboard, following the format at https://cloud.google.com/monitoring/api/ref_v3/rest/v1/projects.dashboards. This attribute contains computed dashboard fields not contained in the user-supplied `dashboard_json` field",
-				Computed:    true,
+				Description:   "The JSON representation of a dashboard, following the format at https://cloud.google.com/monitoring/api/ref_v3/rest/v1/projects.dashboards. This attribute contains computed dashboard fields not contained in the user-supplied `dashboard_json` field",
+				Computed:      true,
 				PlanModifiers: []planmodifier.String{
 					//==Inconsistency Study Explanations==
 					//this is used to emulate having a resource level plan modifier that applies `resp.PlanValue = req.StateValue`
